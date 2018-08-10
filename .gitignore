@@ -1,0 +1,59 @@
+target
+dependency-reduced-pom.xml
+mvnvm.properties
+AggregateViewer.html
+
+#OS X files
+.DS_Store
+.java-version
+
+# Eclipse files
+eclipse-classes
+maven-eclipse.xml
+.classpath
+.settings
+.project
+.xml
+.bpmn
+.externalToolBuilders
+
+# Idea files
+*.swp
+*.iml
+*.ipr
+*.iws
+*.class
+.idea
+
+# VS Code config
+.vscode
+
+# Swagger Codegen
+.swagger-codegen-ignore
+.swagger-codegen
+
+# python compiled files
+*.pyc
+*.pyo
+
+# emacs backup files
+*~
+
+# emacs tern files
+*.tern-port
+
+# emacs autosave files
+\#*#
+
+# terraform files
+.terraform
+*.backup
+*.tfvars
+the-plan
+
+# Ignore all bazel-* symlinks. There is no full list since this can change
+# based on the name of the directory bazel is cloned into.
+/bazel-*
+
+# Local bazelrc file
+.bazelrc

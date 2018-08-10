@@ -1,0 +1,25 @@
+#SQL_BEGIN
+create database if not exists {{dbName}}
+  location 's3a://{{systestBucket}}/hive/database/{{dbName}}';
+#SQL_END
+
+#SQL_BEGIN
+describe database extended {{dbName}};
+#SQL_END
+'db_name','comment','location','owner_name','owner_type','parameters'
+'{{dbName}}','','s3a://{{systestBucket}}/hive/database/{{dbName}}','hdfs','USER',''
+
+#SQL_BEGIN
+create external table if not exists {{dbName}}.tbl_alterTableTest (
+  id INT,
+  name STRING) location 's3a://{{systest-bucket}}/gridlink/tables/tbl_alterTableTest';
+#SQL_END
+
+#SQL_BEGIN
+describe extended {{dbName}}.tbl_alterTableTest;
+#SQL_END
+'col_name','data_type','comment'
+'id','int',''
+'name','string',''
+'','NULL','NULL'
+'Detailed Table Information','Table(tableName:tbl_alterTableTest, dbName:{{dbName}}, owner:hdfs, createTime:[0-9]+, lastAccessTime:[0-9]+, retention:0, sd:StorageDescriptor(cols:[FieldSchema(name:id, type:int, comment:null), FieldSchema(name:name, type:string, comment:null)], location:s3a://{{systest-bucket}}/gridlink/tables/tbl_alterTableTest, inputFormat:org.apache.hadoop.mapred.TextInputFormat, outputFormat:org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat, compressed:false, numBuckets:-1, serdeInfo:SerDeInfo(name:null, serializationLib:org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe, parameters:{serialization.format=1}), bucketCols:[], sortCols:[], parameters:{}, skewedInfo:SkewedInfo(skewedColNames:[], skewedColValues:[], skewedColValueLocationMaps:{}), storedAsSubDirectories:false), partitionKeys:[], parameters:{EXTERNAL=TRUE, transient_lastDdlTime=[0-9]+}, viewOriginalText:null, viewExpandedText:null, tableType:EXTERNAL_TABLE)',''

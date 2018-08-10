@@ -1,0 +1,7 @@
+CDH514+_ImpalaSimbaDriver_2.5.38+:
+- key: name
+  value: CreateTime
+- key: name
+  value: LastAccessTime
+- key: type
+  value: transient_lastDdlTime

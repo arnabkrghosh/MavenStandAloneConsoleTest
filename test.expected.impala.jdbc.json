@@ -1,0 +1,17 @@
+{
+  "expectedResponses" : [ {
+    "sqlStatement" : "create database foobar;",
+    "entitiesWithSqlTypes" : {
+      "mapOfColumnNamesToSqlTypes" : {
+        "name" : 12,
+        "location" : 12,
+        "comment" : 12
+      },
+      "entities" : [ {
+        "name" : "foobar",
+        "location" : "s3location",
+        "comment" : "this is a db."
+      } ]
+    }
+  } ]
+}

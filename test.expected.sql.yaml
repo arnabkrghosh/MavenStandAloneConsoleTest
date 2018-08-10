@@ -1,0 +1,39 @@
+- actionQuery:
+    queryWithDescription:
+      description: Creates a unique database for test resource isolation.
+      sqlQuery: |
+        create database {{dbName}}
+          location '{{dataLocationScheme}}://{{objectStoreBase}}/gridlink/database/{{dbName}}';
+  validationQueriesAlsoRunOnActionCluster: false
+  validationQueries:
+  - queryWithDescription:
+      description: Validates the create database with a describes database in extended format.
+      sqlQuery: |
+        describe database extended {{dbName}};
+- actionQuery:
+    queryWithDescription:
+      description: Creates a table to apply the UDF on the value of particular column of a specific row.
+      sqlQuery: |
+        create external table {{dbName}}.tbl_UDFTest (
+          id int,
+          name string,
+          country string);
+  validationQueriesAlsoRunOnActionCluster: false
+  validationQueries:
+  - queryWithDescription:
+      description: Validates a create table with a describe table in extended format.
+      sqlQuery: |
+        describe extended {{dbName}}.tbl_UDFTest;
+- actionQuery:
+    queryWithDescription:
+      description: Inserts data into the table. Is used in the test to verify the transformation done by the function.
+      sqlQuery: |
+        insert into table {{dbName}}.tbl_UDFTest values
+          (1, 'name1', 'us'),
+          (2, 'name2', 'ca');
+  validationQueriesAlsoRunOnActionCluster: false
+  validationQueries:
+  - queryWithDescription:
+      description: Validates an insert with a select.
+      sqlQuery: |
+        select * from {{dbName}}.tbl_UDFTest;

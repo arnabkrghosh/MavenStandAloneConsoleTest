@@ -1,0 +1,59 @@
+{
+  "queryGroups" : [ {
+    "actionQuery" : {
+      "description" : "Create a java UDF to show it is visible on another cluster.",
+      "sqlQuery" : "
+      create function {{dbName}}.fnc_UDFTest1(string)
+        returns string location '{{dataLocationScheme}}://{{objectStoreBase}}/gridlink/functions/fnc_UDFTest.jar'
+        symbol='{{functionClassName}}';"
+    },
+    "validationQueries" : [ {
+    "description" : "Selects an existing row and applies the UDF to the name column value.",
+    "sqlQuery" : "
+    select {{dbName}}.fnc_UDFTest1(name) from {{dbName}}.tbl_UDFTest where name='name1';"
+    }, {
+    "description" : "Attempts to selects a non-existing row and apply the UDF to the name column value.",
+    "sqlQuery" : "
+    select {{dbName}}.fnc_UDFTest1(name) from {{dbName}}.tbl_UDFTest where name='non-existing';"
+    } ],
+    "validationQueriesAlsoRunOnActionCluster" : false
+    }, {
+      "actionQuery" : {
+        "description" : "Create a native UDF to show it is visible on another cluster.",
+        "sqlQuery" : "
+        create function {{dbName}}.fnc_UDFTest2(string)
+          returns string location '{{dataLocationScheme}}://{{objectStoreBase}}/gridlink/functions/libudfsample.so'
+          symbol='CountVowels';"
+    },
+    "validationQueries" : [ {
+    "description" : "Selects an existing row and applies the UDF to the name column value.",
+    "sqlQuery" : "
+    select {{dbName}}.fnc_UDFTest2(name) from {{dbName}}.tbl_UDFTest where name='name1';"
+    }, {
+    "description" : "
+    Attempts to selects a non-existing row and apply the UDF to the name column value.
+    This is expected to fail.",
+    "sqlQuery" : "
+    select {{dbName}}.fnc_UDFTest2(name) from {{dbName}}.tbl_UDFTest where name='non-existing';"
+    } ],
+    "validationQueriesAlsoRunOnActionCluster" : false
+    }, {
+      "actionQuery" : {
+        "description" : "Create a native UDF to show it is visible on another cluster.",
+        "sqlQuery" : "
+        create aggregate function {{dbName}}.fnc_UDFTest3(int)
+          returns bigint location '{{dataLocationScheme}}://{{objectStoreBase}}/gridlink/functions/libudasample.so'
+          init_fn='CountInit' merge_fn='CountMerge' finalize_fn='CountFinalize' update_fn='CountUpdate';"
+    },
+    "validationQueries" : [ {
+    "description" : "Counts the number of rows in the table tbl_UDFTest2 by applying a UDF on the id column.",
+    "sqlQuery" : "
+    select {{dbName}}.fnc_UDFTest3(id) from {{dbName}}.tbl_UDFTest2;"
+    }, {
+    "description" : "Counts the number of rows in the table tbl_UDFTest by applying a UDF on the country column.",
+    "sqlQuery" : "
+    select {{dbName}}.fnc_UDFTest3(country) from {{dbName}}.tbl_udftest;"
+    } ],
+    "validationQueriesAlsoRunOnActionCluster" : false
+    } ]
+}
